@@ -2,163 +2,220 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPŠEI CASINO: ULTIMATE EDITION</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ROYAL CASINO: MOBILE</title>
     <style>
-        /* --- VZHLED (GLOBAL) --- */
+        /* --- RESET & BASIC --- */
+        * { box-sizing: border-box; }
         :root {
-            --bg-dark: #0f1115;
-            --bg-card: #1a1d24;
-            --accent: #ffd700;
-            --neon-green: #00ff88;
-            --neon-red: #ff4444;
-            --text-main: #ffffff;
+            --bg-dark: #0f1115; --bg-card: #1a1d24; --accent: #ffd700;
+            --neon-green: #00ff88; --neon-red: #ff4444; --text-main: #ffffff;
             --text-muted: #8b9bb4;
         }
 
         body {
             margin: 0; background-color: var(--bg-dark); color: var(--text-main);
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            overflow-x: hidden; user-select: none;
+            overflow-x: hidden; -webkit-tap-highlight-color: transparent;
+            padding-bottom: 20px;
         }
 
-        /* --- HLAVIČKA --- */
+        /* --- HEADER --- */
         header {
-            background: rgba(26, 29, 36, 0.95); padding: 15px 30px;
+            background: rgba(26, 29, 36, 0.95); padding: 10px 15px;
             display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 100;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px); flex-wrap: wrap; gap: 10px;
         }
-        .logo { font-size: 24px; font-weight: 800; color: var(--accent); letter-spacing: 1px; text-transform: uppercase; }
+        .logo { font-size: 20px; font-weight: 800; color: var(--accent); text-transform: uppercase; }
         .logo span { color: #fff; }
 
-        .user-panel { display: flex; gap: 20px; align-items: center; }
+        .user-panel { display: flex; gap: 10px; align-items: center; }
         .balance-box {
-            background: #000; padding: 8px 16px; border-radius: 8px; border: 1px solid #333;
-            display: flex; gap: 10px; font-weight: bold;
+            background: #000; padding: 6px 12px; border-radius: 6px; border: 1px solid #333;
+            display: flex; gap: 5px; font-weight: bold; font-size: 14px;
         }
         .balance-val { color: var(--neon-green); }
 
         .btn-deposit {
-            background: var(--neon-green); color: #000; border: none; padding: 8px 20px;
-            border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.2s;
+            background: var(--neon-green); color: #000; border: none; padding: 6px 12px;
+            border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 14px;
         }
-        .btn-deposit:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(0,255,136,0.4); }
 
         /* --- LAYOUT --- */
-        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px 15px; }
         .section-title {
-            display: flex; align-items: center; gap: 10px; font-size: 20px;
-            margin-bottom: 25px; color: var(--text-muted); text-transform: uppercase;
+            display: flex; align-items: center; gap: 10px; font-size: 18px;
+            margin-bottom: 15px; color: var(--text-muted); text-transform: uppercase;
             letter-spacing: 1px; border-bottom: 1px solid #333; padding-bottom: 10px;
         }
 
-        /* --- GRID --- */
-        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+        /* --- GRID AUTOMATŮ --- */
+        .games-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Menší karty pro mobil */
+            gap: 15px; 
+        }
 
         .game-card {
             background: var(--bg-card); border-radius: 12px; overflow: hidden; cursor: pointer;
-            transition: all 0.3s; position: relative; border: 1px solid #333; height: 280px;
-            display: flex; flex-direction: column;
+            position: relative; border: 1px solid #333; height: 200px;
+            display: flex; flex-direction: column; transition: transform 0.2s;
         }
-        .game-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .game-card:active { transform: scale(0.98); }
 
         .card-img {
-            height: 200px; background: linear-gradient(45deg, #2c3e50, #000);
-            display: flex; justify-content: center; align-items: center; font-size: 60px; position: relative;
+            height: 140px; background: linear-gradient(45deg, #2c3e50, #000);
+            display: flex; justify-content: center; align-items: center; font-size: 50px; position: relative;
         }
-        .card-overlay {
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7);
-            display: flex; justify-content: center; align-items: center; opacity: 0; transition: 0.3s;
-        }
-        .game-card:hover .card-overlay { opacity: 1; }
-        .play-btn-small { background: var(--accent); color: #000; padding: 10px 25px; border-radius: 20px; font-weight: bold; }
-        .card-info { padding: 15px; background: #252a33; flex-grow: 1; }
-        .card-title { font-weight: bold; display: block; }
-        .card-provider { font-size: 12px; color: var(--text-muted); }
+        .card-info { padding: 10px; background: #252a33; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
+        .card-title { font-weight: bold; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+        .card-provider { font-size: 11px; color: var(--text-muted); }
+        .play-btn-small { display: none; } /* Na mobilu zbytečné */
 
         /* --- CRYPTO --- */
         .crypto-dashboard {
-            background: var(--bg-card); border: 1px solid #333; border-radius: 12px; padding: 20px;
-            display: flex; gap: 20px; align-items: center;
+            background: var(--bg-card); border: 1px solid #333; border-radius: 12px; padding: 15px;
+            display: flex; flex-direction: column; gap: 15px;
         }
-        .crypto-info { flex: 1; }
-        .crypto-chart { flex: 2; background: #111; border-radius: 8px; border: 1px solid #444; }
-        .c-btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; color: #fff; margin-right: 5px;}
+        .crypto-chart { background: #111; border-radius: 8px; border: 1px solid #444; width: 100%; height: 200px; }
+        .crypto-controls { display: flex; gap: 10px; margin-top: 10px; }
+        .c-btn { flex: 1; padding: 12px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; color: #fff; }
         .btn-buy { background: #008000; } .btn-sell { background: #800000; }
 
-        /* --- HERNÍ OVERLAY (SPOLEČNÉ) --- */
+        /* --- GAME OVERLAY (COMMON) --- */
         .game-interface {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg-dark); z-index: 200; flex-direction: column;
+            overflow-y: auto; /* Povolit scrollování na malých mobilech */
         }
-        .game-nav { padding: 15px 30px; background: #151515; display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #333; }
-        .back-btn { background: transparent; color: #fff; border: 1px solid #555; padding: 5px 15px; border-radius: 4px; cursor: pointer; }
+        .game-nav { 
+            padding: 10px 15px; background: #151515; display: flex; align-items: center; gap: 15px; 
+            border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 10;
+        }
+        .back-btn { background: #333; color: #fff; border: 1px solid #555; padding: 8px 15px; border-radius: 4px; font-weight: bold; }
         
-        /* Tlačítka */
-        .spin-btn { background: linear-gradient(180deg, var(--accent) 0%, #d4b100 100%); border: none; padding: 15px; width: 100%; font-size: 24px; font-weight: bold; color: #222; border-radius: 8px; cursor: pointer; }
-        .bet-btn { background: #333; color: #fff; border: 1px solid #555; padding: 5px 10px; cursor: pointer; }
-
-        /* --- AUTOMATY SPECIFIC --- */
-        .slot-machine-wrapper { flex-grow: 1; display: flex; justify-content: center; align-items: center; background-image: radial-gradient(circle at center, #2a2a2a 0%, #0f1115 70%); }
-        .machine-body { background: #222; padding: 40px; border-radius: 20px; box-shadow: 0 0 50px rgba(0,0,0,0.8); border: 4px solid #444; text-align: center; width: 500px; }
-        .reels { display: flex; gap: 10px; background: #000; padding: 15px; border-radius: 10px; border: 2px solid #555; margin: 20px 0; height: 150px; overflow: hidden; }
-        .reel { flex: 1; background: #fff; border-radius: 5px; display: flex; justify-content: center; align-items: center; font-size: 60px; box-shadow: inset 0 0 20px rgba(0,0,0,0.5); }
-        .reel.spinning { color: transparent; background-image: linear-gradient(180deg, #ccc 25%, #fff 50%, #ccc 75%); background-size: 100% 20%; animation: blurSpin 0.1s infinite linear; }
+        /* Společné prvky ovládání */
+        .bet-btn { background: #333; color: #fff; border: 1px solid #555; padding: 10px 15px; border-radius: 5px; font-weight: bold; min-width: 40px; }
+        .spin-btn { 
+            background: linear-gradient(180deg, var(--accent) 0%, #d4b100 100%); 
+            border: none; padding: 15px; width: 100%; font-size: 20px; font-weight: bold; 
+            color: #222; border-radius: 8px; margin-top: 10px; box-shadow: 0 4px 0 #998000;
+        }
+        .spin-btn:active { transform: translateY(4px); box-shadow: none; }
+        
+        /* --- 1. AUTOMATY --- */
+        .slot-machine-wrapper { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .machine-body { 
+            background: #222; padding: 20px; border-radius: 20px; border: 4px solid #444; 
+            text-align: center; width: 100%; max-width: 500px;
+        }
+        .reels { 
+            display: flex; gap: 5px; background: #000; padding: 10px; border-radius: 10px; 
+            margin: 15px 0; height: 120px; overflow: hidden; 
+        }
+        .reel { 
+            flex: 1; background: #fff; border-radius: 5px; display: flex; justify-content: center; 
+            align-items: center; font-size: 40px; 
+        }
+        .reel.spinning { 
+            color: transparent; background-image: linear-gradient(180deg, #ccc 25%, #fff 50%, #ccc 75%); 
+            background-size: 100% 20%; animation: blurSpin 0.1s infinite linear; 
+        }
         @keyframes blurSpin { 0% { background-position: 0 0; } 100% { background-position: 0 100px; } }
+        .controls-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; }
 
-        /* --- RULETA SPECIFIC --- */
-        .roulette-wrapper { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #053010; }
-        .roulette-board { display: grid; grid-template-columns: repeat(12, 1fr); gap: 5px; background: #004d1a; padding: 20px; border-radius: 10px; border: 5px solid #d4b100; max-width: 800px; }
-        .r-num { padding: 15px; text-align: center; font-weight: bold; cursor: pointer; border-radius: 4px; color: #fff; border: 2px solid transparent; }
-        .r-num:hover { transform: scale(1.1); z-index: 10; border-color: #fff; }
-        .r-red { background: #b30000; } .r-black { background: #111; } .r-green { background: #008000; grid-column: span 12; }
-        .r-selected { border-color: #ffd700 !important; box-shadow: 0 0 15px #ffd700; transform: scale(1.1); z-index: 10; }
-        .r-highlight { background: #fff !important; color: #000 !important; box-shadow: 0 0 30px #fff; }
-        .roulette-controls { margin-top: 20px; background: #111; padding: 20px; border-radius: 10px; display: flex; gap: 20px; align-items: center; border: 1px solid #444; }
+        /* --- 2. RULETA --- */
+        .roulette-wrapper { padding: 20px; display: flex; flex-direction: column; align-items: center; width: 100%; }
+        .roulette-board { 
+            display: grid; grid-template-columns: repeat(6, 1fr); /* Méně sloupců pro mobil */
+            gap: 4px; background: #004d1a; padding: 10px; border-radius: 10px; 
+            border: 3px solid #d4b100; width: 100%; max-width: 600px;
+        }
+        .r-num { 
+            padding: 10px 5px; text-align: center; font-weight: bold; border-radius: 3px; color: #fff; 
+            font-size: 14px; border: 2px solid transparent; 
+        }
+        .r-green { grid-column: span 6; background: #008000; }
+        .r-red { background: #b30000; } .r-black { background: #111; }
+        .r-selected { border-color: #ffd700; z-index: 5; transform: scale(1.05); }
+        .r-highlight { background: #fff !important; color: #000 !important; }
+        
+        .roulette-controls { 
+            margin-top: 20px; background: #111; padding: 15px; border-radius: 10px; 
+            width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 15px;
+        }
 
-        /* --- BLACKJACK SPECIFIC --- */
-        .bj-wrapper { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #1a4d1a; position: relative;}
-        .bj-table { width: 800px; height: 500px; background: #267326; border: 15px solid #3d1f00; border-radius: 100px; position: relative; box-shadow: inset 0 0 50px rgba(0,0,0,0.5); display: flex; flex-direction: column; justify-content: space-between; padding: 40px; }
-        .hand-area { display: flex; flex-direction: column; align-items: center; min-height: 150px; }
-        .cards-container { display: flex; gap: -30px; margin-top: 10px; }
-        .playing-card { width: 80px; height: 110px; background: #fff; border-radius: 8px; display: flex; flex-direction: column; justify-content: space-between; padding: 5px; font-weight: bold; font-size: 20px; color: #000; box-shadow: 2px 2px 10px rgba(0,0,0,0.5); margin-right: -40px; transition: transform 0.3s; }
-        .playing-card:hover { transform: translateY(-10px); z-index: 50; }
+        /* --- 3. BLACKJACK --- */
+        .bj-wrapper { padding: 10px; width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .bj-table { 
+            width: 100%; max-width: 500px; min-height: 400px; background: #267326; 
+            border: 10px solid #3d1f00; border-radius: 50px; position: relative; 
+            display: flex; flex-direction: column; justify-content: space-between; padding: 20px;
+        }
+        .hand-area { display: flex; flex-direction: column; align-items: center; min-height: 120px; }
+        .cards-container { display: flex; justify-content: center; margin-top: 5px; height: 100px; }
+        .playing-card { 
+            width: 60px; height: 85px; background: #fff; border-radius: 6px; 
+            display: flex; flex-direction: column; justify-content: space-between; padding: 3px;
+            font-weight: bold; font-size: 16px; color: #000; box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+            margin-left: -20px; /* Překryv */
+        }
+        .playing-card:first-child { margin-left: 0; }
         .playing-card.red { color: #d00; }
-        .playing-card.hidden { background: #b00; border: 2px solid #fff; background-image: repeating-linear-gradient(45deg, #b00 0, #b00 10px, #900 10px, #900 20px); }
+        .playing-card.hidden { background: #b00; border: 2px solid #fff; }
         .playing-card.hidden span { display: none; }
-        .score-bubble { background: #000; color: #fff; padding: 5px 15px; border-radius: 20px; margin-top: -10px; z-index: 10; border: 1px solid #ffd700; }
-        .bj-controls { margin-top: 20px; display: flex; gap: 20px; }
-        .bj-btn { padding: 15px 30px; font-size: 18px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .btn-hit { background: #2ecc71; color: #000; } .btn-stand { background: #e74c3c; color: #fff; } .btn-deal { background: #f1c40f; color: #000; width: 100%; }
+        .score-bubble { background: #000; color: #fff; padding: 2px 10px; border-radius: 15px; z-index: 10; border: 1px solid #ffd700; font-size: 12px; }
+        #bjResult { text-align: center; font-size: 24px; text-shadow: 0 0 5px #000; margin: 10px 0; min-height: 30px;}
+        .bj-action-row { display: flex; gap: 10px; margin-top: 10px; }
+        .bj-btn { flex: 1; padding: 15px; border-radius: 8px; border: none; font-weight: bold; font-size: 16px; }
+        .btn-hit { background: #2ecc71; } .btn-stand { background: #e74c3c; color: #fff; } .btn-deal { background: #f1c40f; width: 100%; }
 
-        /* --- DOSTIHY SPECIFIC --- */
-        .race-wrapper { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #2e2720; width: 100%;}
+        /* --- 4. DOSTIHY --- */
+        .race-wrapper { padding: 10px; width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .race-scroll-container {
+            width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; 
+            border: 2px solid #444; border-radius: 8px; margin-bottom: 10px;
+        }
         .race-track { 
-            width: 900px; background: #5a4b3c; border: 5px solid #8b7355; border-radius: 10px; padding: 10px; position: relative;
+            width: 800px; /* Fixní šířka uvnitř scrollu */
+            background: #5a4b3c; padding: 10px; position: relative;
             background-image: repeating-linear-gradient(90deg, transparent 0, transparent 49px, rgba(255,255,255,0.1) 50px);
         }
-        .finish-line { position: absolute; right: 50px; top: 0; bottom: 0; width: 5px; background: repeating-linear-gradient(0deg, #fff, #fff 10px, #000 10px, #000 20px); z-index: 0; }
-        .horse-lane { height: 60px; border-bottom: 1px dashed rgba(255,255,255,0.3); position: relative; display: flex; align-items: center; }
-        .horse-lane:last-child { border-bottom: none; }
-        .horse-model { 
-            font-size: 40px; position: absolute; left: 0; transition: left 0.1s linear; z-index: 1; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.5));
-            display: flex; align-items: center; gap: 10px;
+        .finish-line { position: absolute; right: 20px; top: 0; bottom: 0; width: 4px; background: repeating-linear-gradient(0deg, #fff, #fff 5px, #000 5px, #000 10px); z-index: 0; }
+        .horse-lane { height: 50px; border-bottom: 1px dashed rgba(255,255,255,0.3); position: relative; display: flex; align-items: center; }
+        .horse-model { font-size: 30px; position: absolute; left: 0; transition: left 0.1s linear; z-index: 1; display: flex; align-items: center; gap: 5px; }
+        .horse-tag { font-size: 10px; background: rgba(0,0,0,0.8); padding: 2px; color: #fff; border-radius: 3px; }
+        
+        .race-controls { 
+            background: #151515; padding: 15px; border-radius: 10px; width: 100%; max-width: 600px;
+            display: flex; flex-direction: column; gap: 15px;
         }
-        .horse-tag { font-size: 12px; background: rgba(0,0,0,0.7); padding: 2px 5px; border-radius: 3px; color: #fff; white-space: nowrap; }
-        
-        .race-controls { margin-top: 20px; background: #151515; padding: 20px; border-radius: 10px; display: flex; gap: 20px; width: 900px; justify-content: space-between; align-items: center; border: 1px solid #444; }
-        .horse-selector { display: flex; gap: 10px; }
-        .horse-btn { background: #333; border: 1px solid #555; color: #fff; padding: 10px 15px; cursor: pointer; border-radius: 5px; display: flex; flex-direction: column; align-items: center; font-size: 12px; min-width: 80px; }
-        .horse-btn.selected { background: var(--accent); color: #000; border-color: var(--accent); font-weight: bold; transform: scale(1.1); }
-        .horse-btn:hover { background: #444; }
-        
+        .horse-selector { display: flex; justify-content: space-between; gap: 5px; overflow-x: auto; padding-bottom: 5px; }
+        .horse-btn { 
+            background: #333; border: 1px solid #555; color: #fff; padding: 8px; flex: 1; min-width: 60px;
+            cursor: pointer; border-radius: 5px; display: flex; flex-direction: column; align-items: center; font-size: 11px; 
+        }
+        .horse-btn.selected { background: var(--accent); color: #000; border-color: var(--accent); }
+
+        /* --- MEDIA QUERIES (TABLET & DESKTOP) --- */
+        @media (min-width: 768px) {
+            .games-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+            .game-card { height: 280px; }
+            .card-img { height: 200px; font-size: 60px; }
+            .play-btn-small { display: block; background: var(--accent); color: #000; padding: 10px 25px; border-radius: 20px; font-weight: bold; position: absolute; }
+            .roulette-board { grid-template-columns: repeat(12, 1fr); }
+            .r-green { grid-column: span 12; }
+            .btn-red-big, .btn-black-big { grid-column: span 6; }
+            .playing-card { width: 80px; height: 110px; font-size: 20px; margin-left: -40px; }
+        }
+
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">SPŠEI <span>CASINO</span></div>
+        <div class="logo">ROYAL <span>CASINO</span></div>
         <div class="user-panel">
             <div class="balance-box">
                 <span>CZK</span>
@@ -169,110 +226,123 @@
     </header>
 
     <div class="container" id="lobby">
-        <div class="section-title">🔥 Herní Lobby</div>
+        <div class="section-title">🔥 Hry</div>
         <div class="games-grid" id="gamesGrid">
             </div>
 
-        <br><br>
-        <div class="section-title">📊 Jancoin Market</div>
+        <br>
+        <div class="section-title">📊 Krypto (JNC)</div>
         <div class="crypto-dashboard">
-            <div class="crypto-info">
-                <h2 style="color:var(--accent)">Jancoin (JNC)</h2>
-                <p>Cena: <b id="cryptoPrice" style="font-size:1.5em">100.00</b> CZK</p>
-                <p>Vlastníš: <span id="cryptoOwned">0</span> JNC</p>
-                <div style="margin-top:10px">
-                    <button class="c-btn btn-buy" onclick="tradeCrypto('buy')">KOUPIT</button>
-                    <button class="c-btn btn-sell" onclick="tradeCrypto('sell')">PRODAT</button>
+            <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+                <div>
+                    <h2 style="margin:0; color:var(--accent)">Jancoin</h2>
+                    <div style="font-size:14px; color:#888;">Owned: <span id="cryptoOwned">0</span></div>
+                </div>
+                <div style="text-align:right;">
+                    <div id="cryptoPrice" style="font-size:20px; font-weight:bold;">100.00</div>
+                    <div style="font-size:12px; color:#666">CZK</div>
                 </div>
             </div>
-            <canvas id="cryptoChart" class="crypto-chart" height="200" width="600"></canvas>
+            <canvas id="cryptoChart" class="crypto-chart"></canvas>
+            <div class="crypto-controls">
+                <button class="c-btn btn-buy" onclick="tradeCrypto('buy')">KOUPIT</button>
+                <button class="c-btn btn-sell" onclick="tradeCrypto('sell')">PRODAT</button>
+            </div>
         </div>
     </div>
 
     <div id="slot-interface" class="game-interface">
         <div class="game-nav">
-            <button class="back-btn" onclick="closeGame()">❮ Zpět do Lobby</button>
-            <span id="activeGameTitle" style="font-weight:bold; font-size:18px;">Hra</span>
+            <button class="back-btn" onclick="closeGame()">❮ Zpět</button>
+            <span id="activeGameTitle" style="font-weight:bold;">Automat</span>
         </div>
         <div class="slot-machine-wrapper">
             <div class="machine-body" id="machineBody">
-                <h2 id="machineHeaderTitle" style="margin:0; text-transform:uppercase;">GAME</h2>
+                <h3 id="machineHeaderTitle" style="margin:0 0 10px 0; text-transform:uppercase;">GAME</h3>
                 <div class="reels">
                     <div class="reel" id="reel1">🍒</div>
                     <div class="reel" id="reel2">🍒</div>
                     <div class="reel" id="reel3">🍒</div>
                 </div>
-                <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-weight:bold;">
+                
+                <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:14px; margin-bottom:10px;">
                     <span>Sázka: <span id="slotBet">10</span></span>
                     <span>Výhra: <span id="slotWin" style="color:var(--neon-green)">0</span></span>
                 </div>
-                <div style="margin-bottom:15px;">
+
+                <div class="controls-row">
                     <button class="bet-btn" onclick="adjustSlotBet(-10)">-</button>
                     <button class="bet-btn" onclick="adjustSlotBet(10)">+</button>
                     <button class="bet-btn" onclick="setSlotMaxBet()">MAX</button>
                 </div>
                 <button class="spin-btn" id="spinBtn" onclick="spinSlot()">ROZTOČIT</button>
-                <p id="slotMsg" style="min-height:20px; font-weight:bold; margin-top:10px;">Hodně štěstí!</p>
+                <p id="slotMsg" style="min-height:20px; font-weight:bold; margin-top:10px; font-size:14px;">Hodně štěstí!</p>
             </div>
         </div>
     </div>
 
     <div id="roulette-interface" class="game-interface">
         <div class="game-nav">
-            <button class="back-btn" onclick="closeGame()">❮ Zpět do Lobby</button>
-            <span style="font-weight:bold; font-size:18px;">🎡 Ruleta Deluxe</span>
+            <button class="back-btn" onclick="closeGame()">❮ Zpět</button>
+            <span style="font-weight:bold;">Ruleta</span>
         </div>
         <div class="roulette-wrapper">
-            <h2 style="color:#fff; margin-bottom:10px">Vyber číslo nebo barvu</h2>
             <div class="roulette-board" id="rouletteBoard"></div>
+            
             <div class="roulette-controls">
-                <div>
-                    <p style="margin:0 0 5px 0">Tip: <span id="rSelectedInfo" style="color:var(--accent)">Nic</span></p>
-                    <p style="margin:0">Sázka: <b id="rBetAmount">100</b> CZK</p>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div style="font-size:14px;">
+                        <div>Tip: <span id="rSelectedInfo" style="color:var(--accent)">Nic</span></div>
+                        <div>Sázka: <b id="rBetAmount">100</b></div>
+                    </div>
+                    <div>
+                        <button class="bet-btn" onclick="adjustRouletteBet(-100)">-</button>
+                        <button class="bet-btn" onclick="adjustRouletteBet(100)">+</button>
+                    </div>
                 </div>
-                <div>
-                     <button class="bet-btn" onclick="adjustRouletteBet(-100)">-</button>
-                     <button class="bet-btn" onclick="adjustRouletteBet(100)">+</button>
-                </div>
-                <button class="spin-btn" style="width:150px; background:linear-gradient(180deg, #ff4444, #900)" onclick="spinRoulette()">TOČIT</button>
+                <button class="spin-btn" style="background:linear-gradient(180deg, #ff4444, #900)" onclick="spinRoulette()">TOČIT</button>
+                <div id="rMsg" style="text-align:center; font-weight:bold; min-height:20px;"></div>
             </div>
-            <p id="rMsg" style="height:20px; font-weight:bold; margin-top:15px; font-size:1.2em"></p>
         </div>
     </div>
 
     <div id="blackjack-interface" class="game-interface">
         <div class="game-nav">
-            <button class="back-btn" onclick="closeGame()">❮ Zpět do Lobby</button>
-            <span style="font-weight:bold; font-size:18px;">♠️ Blackjack Pro</span>
+            <button class="back-btn" onclick="closeGame()">❮ Zpět</button>
+            <span style="font-weight:bold;">Blackjack</span>
         </div>
         <div class="bj-wrapper">
             <div class="bj-table">
                 <div class="hand-area">
-                    <span style="color:#ccc; font-size:14px; margin-bottom:5px;">DEALER</span>
+                    <span style="color:#ccc; font-size:12px;">DEALER</span>
                     <div class="score-bubble" id="dealerScore">0</div>
                     <div class="cards-container" id="dealerCards"></div>
                 </div>
-                <h2 id="bjResult" style="position:absolute; top:45%; left:0; right:0; text-align:center; font-size:3em; margin:0; text-shadow:0 0 10px #000; pointer-events:none;"></h2>
+                
+                <div id="bjResult"></div>
+
                 <div class="hand-area">
                     <div class="cards-container" id="playerCards"></div>
                     <div class="score-bubble" id="playerScore">0</div>
-                    <span style="color:#ccc; font-size:14px; margin-top:5px;">TY</span>
+                    <span style="color:#ccc; font-size:12px;">TY</span>
                 </div>
             </div>
-            <div class="roulette-controls" style="margin-top:20px; width:800px; justify-content:space-between;">
-                <div>
-                    <span style="display:block">Sázka: <b id="bjBetAmount">100</b> CZK</span>
-                    <div style="margin-top:5px">
+
+            <div style="width:100%; max-width:500px; margin-top:15px; background:#111; padding:15px; border-radius:10px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <span>Sázka: <b id="bjBetAmount">100</b></span>
+                    <div>
                         <button class="bet-btn" onclick="adjustBjBet(-100)">-</button>
                         <button class="bet-btn" onclick="adjustBjBet(100)">+</button>
                     </div>
                 </div>
-                <div id="bjActions" style="display:none; gap:10px;">
-                    <button class="bj-btn btn-hit" onclick="bjHit()">HIT (Karta)</button>
-                    <button class="bj-btn btn-stand" onclick="bjStand()">STAND (Stát)</button>
-                </div>
+
                 <div id="bjDealDiv">
                     <button class="bj-btn btn-deal" onclick="bjDeal()">ROZDAT</button>
+                </div>
+                <div id="bjActions" class="bj-action-row" style="display:none;">
+                    <button class="bj-btn btn-hit" onclick="bjHit()">HIT</button>
+                    <button class="bj-btn btn-stand" onclick="bjStand()">STAND</button>
                 </div>
             </div>
         </div>
@@ -280,70 +350,55 @@
 
     <div id="race-interface" class="game-interface">
         <div class="game-nav">
-            <button class="back-btn" onclick="closeGame()">❮ Zpět do Lobby</button>
-            <span style="font-weight:bold; font-size:18px;">🐎 Dostihy SPŠEI</span>
+            <button class="back-btn" onclick="closeGame()">❮ Zpět</button>
+            <span style="font-weight:bold;">Dostihy</span>
         </div>
         <div class="race-wrapper">
-            <h2 id="raceStatus" style="color:var(--accent); margin-bottom:10px;">Vyber koně a vsaď!</h2>
+            <h3 id="raceStatus" style="color:var(--accent); margin:0 0 10px 0; text-align:center;">Vyber koně</h3>
             
-            <div class="race-track" id="raceTrack">
-                <div class="finish-line"></div>
-                </div>
+            <div class="race-scroll-container">
+                <div class="race-track" id="raceTrack"></div>
+            </div>
 
             <div class="race-controls">
-                <div>
-                    <p style="margin:0 0 5px 0; color:#888;">FAVORIT:</p>
-                    <div class="horse-selector" id="horseSelector">
-                        </div>
-                </div>
+                <div class="horse-selector" id="horseSelector"></div>
                 
-                <div style="border-left:1px solid #333; padding-left:20px;">
-                    <p style="margin:0 0 5px 0">Sázka: <b id="raceBetAmount">100</b> CZK</p>
+                <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #333; padding-top:10px;">
+                    <div>Sázka: <b id="raceBetAmount">100</b></div>
                     <div>
                         <button class="bet-btn" onclick="adjustRaceBet(-100)">-</button>
                         <button class="bet-btn" onclick="adjustRaceBet(100)">+</button>
                     </div>
                 </div>
-
-                <button class="spin-btn" id="startRaceBtn" style="width:150px; background:linear-gradient(180deg, #e67e22, #d35400)" onclick="startRace()">START</button>
+                <button class="spin-btn" id="startRaceBtn" style="background:linear-gradient(180deg, #e67e22, #d35400)" onclick="startRace()">START</button>
             </div>
         </div>
     </div>
 
     <script>
-        // ==========================================
-        //  ⚙️ KONFIGURACE (TADY MŮŽEŠ UPRAVOVAT)
-        // ==========================================
-        
-        // 1. AUTOMATY
+        /* --- CONFIG --- */
         const GAMES = [
-            { id: 1, name: "Inzulínový Automat", winChance: 40, color: "#ff5555", symbols: ["💉", "🩸", "🍬", "🚑", "🍰", "💀", "💊"], icon: "💉" },
-            { id: 2, name: "Automatomat Gargamela", winChance: 25, color: "#5555ff", symbols: ["🐈", "🧙‍♂️", "🍄", "🧪", "🥘", "🏰", "⚡"], icon: "🧙‍♂️" },
-            { id: 3, name: "Ničeho Gamba", winChance: 10, color: "#888888", symbols: ["🚬", "💨", "🥃", "🕶️", "⚫", "🎲", "🌑"], icon: "🕶️" },
-            { id: 4, name: "Vyjídáčkovo Gamba", winChance: 50, color: "#e67e22", symbols: ["🚜", "🥓", "🌭", "🍺", "🐷", "🧅", "🍟"], icon: "🌭" },
-            { id: 5, name: "Zarybovo Automat", winChance: 30, color: "#3498db", symbols: ["🐟", "🐠", "🎣", "🦈", "🦞", "🌊", "⚓"], icon: "🐟" },
-            { id: 6, name: "Rákosník-Mat", winChance: 35, color: "#2ecc71", symbols: ["🐸", "🎋", "🌜", "✨", "🚤", "🦟", "🥒"], icon: "🎋" },
-            { id: 7, name: "SPSEMOH.cz", winChance: 90, color: "#9b59b6", symbols: ["💻", "💾", "🔌", "📚", "🎓", "☕", "🤖"], icon: "💻" },
-            { id: 8, name: "Jancoin Bonanza", winChance: 33, color: "#f1c40f", symbols: ["🪙", "🚀", "📉", "🐂", "💰", "💎", "🌙"], icon: "🚀" }
+            { id: 1, name: "Inzulín Mat", winChance: 40, color: "#ff5555", symbols: ["💉", "🩸", "🍬", "🚑", "🍰"], icon: "💉" },
+            { id: 2, name: "Gargamel", winChance: 25, color: "#5555ff", symbols: ["🐈", "🧙‍♂️", "🍄", "🧪", "🥘"], icon: "🧙‍♂️" },
+            { id: 3, name: "Ničeho Gamba", winChance: 10, color: "#888888", symbols: ["🚬", "💨", "🥃", "🕶️", "⚫"], icon: "🕶️" },
+            { id: 4, name: "Vyjídáček", winChance: 50, color: "#e67e22", symbols: ["🚜", "🥓", "🌭", "🍺", "🐷"], icon: "🌭" },
+            { id: 5, name: "Zarybovo", winChance: 30, color: "#3498db", symbols: ["🐟", "🐠", "🎣", "🦈", "🦞"], icon: "🐟" },
+            { id: 6, name: "Rákosník", winChance: 35, color: "#2ecc71", symbols: ["🐸", "🎋", "🌜", "✨", "🚤"], icon: "🎋" },
+            { id: 7, name: "SPSEMOH", winChance: 90, color: "#9b59b6", symbols: ["💻", "💾", "🔌", "📚", "🎓"], icon: "💻" },
+            { id: 8, name: "Jancoin", winChance: 33, color: "#f1c40f", symbols: ["🪙", "🚀", "📉", "🐂", "💰"], icon: "🚀" }
         ];
-
-        // 2. KONĚ
         const HORSES = [
-            { id: 1, name: "Damian", color: "#ff4444", icon: "🐎" },
-            { id: 2, name: "Radoslav", color: "#4444ff", icon: "🦄" },
-            { id: 3, name: "Vyjidacek", color: "#00ff88", icon: "🦓" },
-            { id: 4, name: "Gargamel", color: "#ffd700", icon: "🐴" },
-            { id: 5, name: "Roman", color: "#ffffff", icon: "🏇" }
+            { id: 1, name: "Blesk", color: "#ff4444", icon: "🐎" },
+            { id: 2, name: "Vichr", color: "#4444ff", icon: "🦄" },
+            { id: 3, name: "Loudal", color: "#00ff88", icon: "🦓" },
+            { id: 4, name: "Spirit", color: "#ffd700", icon: "🐴" },
+            { id: 5, name: "Emil", color: "#ffffff", icon: "🏇" }
         ];
 
-        // 3. OSTATNÍ KONFIG
-        const ROULETTE_CONFIG = { rigged: false, riggedWinChance: 50 };
-        const BLACKJACK_CONFIG = { dealerCheats: false };
-        const CRYPTO_CONFIG = { volatility: 5.0, trend: 0.1 };
-
-        // --- STAV ---
+        /* --- STATE --- */
         let balance = 5000;
         let currentSlotBet = 10;
+        let activeSlotGame = null;
         
         let cryptoPrice = 100; let cryptoOwned = 0; let cryptoHistory = [100];
         const ctx = document.getElementById('cryptoChart').getContext('2d');
@@ -352,267 +407,189 @@
         const redNumbers = [1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
 
         let bjBet = 100; let bjDeck = []; let bjPlayerHand = []; let bjDealerHand = []; let bjGameActive = false;
-
         let raceBet = 100; let selectedHorse = null; let raceActive = false; let horsePositions = [0,0,0,0,0];
 
-        // --- INIT LOBBY ---
+        /* --- INIT --- */
         const grid = document.getElementById('gamesGrid');
         
-        // Automaty
         GAMES.forEach(game => {
-            const card = document.createElement('div');
-            card.className = 'game-card'; card.onclick = () => openSlotGame(game.id);
-            card.innerHTML = `<div class="card-img" style="color: ${game.color}; text-shadow: 0 0 20px ${game.color}66">${game.icon}<div class="card-overlay"><div class="play-btn-small">HRÁT</div></div></div><div class="card-info"><span class="card-title">${game.name}</span><span class="card-provider">Šance: ${game.winChance}%</span></div>`;
+            const card = document.createElement('div'); card.className = 'game-card'; card.onclick = () => openSlotGame(game.id);
+            card.innerHTML = `<div class="card-img" style="color: ${game.color};">${game.icon}</div><div class="card-info"><span class="card-title">${game.name}</span><span class="card-provider">Automat</span></div>`;
             grid.appendChild(card);
         });
+        
+        // Add extra games
+        const addCard = (icon, title, color, action) => {
+            const c = document.createElement('div'); c.className = 'game-card'; c.onclick = action; c.style.borderColor = color;
+            c.innerHTML = `<div class="card-img" style="background: radial-gradient(${color}, #000); color: #fff;">${icon}</div><div class="card-info"><span class="card-title">${title}</span><span class="card-provider">Hra</span></div>`;
+            grid.appendChild(c);
+        };
+        addCard('🎡', 'Ruleta', '#ff4444', openRouletteGame);
+        addCard('♠️', 'Blackjack', '#2ecc71', openBlackjackGame);
+        addCard('🏇', 'Dostihy', '#e67e22', openHorseRace);
 
-        // Ruleta Card
-        const rCard = document.createElement('div'); rCard.className = 'game-card'; rCard.onclick = () => openRouletteGame(); rCard.style.borderColor = "#ff4444";
-        rCard.innerHTML = `<div class="card-img" style="background: radial-gradient(#900, #000); color: #fff;">🎡<div class="card-overlay"><div class="play-btn-small">HRÁT</div></div></div><div class="card-info"><span class="card-title">RULETA DELUXE</span><span class="card-provider">Stolní hra</span></div>`;
-        grid.appendChild(rCard);
-
-        // Blackjack Card
-        const bjCard = document.createElement('div'); bjCard.className = 'game-card'; bjCard.onclick = () => openBlackjackGame(); bjCard.style.borderColor = "#2ecc71";
-        bjCard.innerHTML = `<div class="card-img" style="background: radial-gradient(#050, #000); color: #fff;">♠️<div class="card-overlay"><div class="play-btn-small">HRÁT</div></div></div><div class="card-info"><span class="card-title">BLACKJACK PRO</span><span class="card-provider">Karty</span></div>`;
-        grid.appendChild(bjCard);
-
-        // Dostihy Card
-        const raceCard = document.createElement('div'); raceCard.className = 'game-card'; raceCard.onclick = () => openHorseRace(); raceCard.style.borderColor = "#e67e22";
-        raceCard.innerHTML = `<div class="card-img" style="background: radial-gradient(#5a4b3c, #000); color: #fff;">🏇<div class="card-overlay"><div class="play-btn-small">HRÁT</div></div></div><div class="card-info"><span class="card-title">DOSTIHY SPŠEI</span><span class="card-provider">Sportovní sázky</span></div>`;
-        grid.appendChild(raceCard);
-
-        // Init Ruleta Board
+        // Init Roulette
         const rBoard = document.getElementById('rouletteBoard');
-        const zero = document.createElement('div'); zero.className = 'r-num r-green'; zero.textContent = "0"; zero.onclick = () => selectRouletteBet(0, zero); rBoard.appendChild(zero);
-        for(let i=1; i<=36; i++) {
-            const d = document.createElement('div'); d.textContent = i; d.className = `r-num ${redNumbers.includes(i) ? 'r-red' : 'r-black'}`; d.onclick = () => selectRouletteBet(i, d); rBoard.appendChild(d);
-        }
-        const btnRed = document.createElement('div'); btnRed.className = 'r-num r-red'; btnRed.style.gridColumn = "span 6"; btnRed.textContent = "🔴 ČERVENÁ"; btnRed.onclick = () => selectRouletteBet('red', btnRed);
-        const btnBlack = document.createElement('div'); btnBlack.className = 'r-num r-black'; btnBlack.style.gridColumn = "span 6"; btnBlack.textContent = "⚫ ČERNÁ"; btnBlack.onclick = () => selectRouletteBet('black', btnBlack);
-        rBoard.appendChild(btnRed); rBoard.appendChild(btnBlack);
+        const mkDiv = (cls, txt, onclick) => { const d=document.createElement('div'); d.className=cls; d.textContent=txt; d.onclick=onclick; return d; };
+        rBoard.appendChild(mkDiv('r-num r-green','0',()=>selRoulette(0, event.target)));
+        for(let i=1; i<=36; i++) rBoard.appendChild(mkDiv(`r-num ${redNumbers.includes(i)?'r-red':'r-black'}`, i, ()=>selRoulette(i, event.target)));
+        // Barvy v gridu pro mobil
+        const rRed = mkDiv('r-num r-red', '🔴', ()=>selRoulette('red', event.target)); rRed.style.gridColumn = "span 3"; rBoard.appendChild(rRed);
+        const rBlack = mkDiv('r-num r-black', '⚫', ()=>selRoulette('black', event.target)); rBlack.style.gridColumn = "span 3"; rBoard.appendChild(rBlack);
 
-        // --- COMMON UI ---
-        function updateUI() { document.getElementById('globalBalance').textContent = balance.toFixed(2); document.getElementById('cryptoOwned').textContent = cryptoOwned.toFixed(4); document.getElementById('cryptoPrice').textContent = cryptoPrice.toFixed(2); }
+        /* --- FUNCTIONS --- */
+        function updateUI() { 
+            document.getElementById('globalBalance').textContent = balance.toFixed(0); 
+            document.getElementById('cryptoOwned').textContent = cryptoOwned.toFixed(2); 
+            document.getElementById('cryptoPrice').textContent = cryptoPrice.toFixed(2); 
+        }
         function addMoney() { balance += 1000; updateUI(); }
-        function closeGame() { document.querySelectorAll('.game-interface').forEach(el => el.style.display = 'none'); document.getElementById('lobby').style.display = 'block'; }
+        function closeGame() { document.querySelectorAll('.game-interface').forEach(e => e.style.display = 'none'); document.getElementById('lobby').style.display = 'block'; }
 
-        // =======================
-        //  AUTOMATY
-        // =======================
+        // --- SLOTS ---
         function openSlotGame(id) {
-            const activeGame = GAMES.find(g => g.id === id);
-            document.getElementById('activeGameTitle').textContent = activeGame.name; document.getElementById('machineHeaderTitle').textContent = activeGame.name; document.getElementById('machineHeaderTitle').style.color = activeGame.color; document.getElementById('machineBody').style.borderColor = activeGame.color;
-            ['reel1','reel2','reel3'].forEach(r => document.getElementById(r).textContent = activeGame.icon);
+            activeSlotGame = GAMES.find(g => g.id === id);
+            document.getElementById('machineHeaderTitle').textContent = activeSlotGame.name;
+            document.getElementById('machineHeaderTitle').style.color = activeSlotGame.color;
+            document.getElementById('machineBody').style.borderColor = activeSlotGame.color;
+            ['reel1','reel2','reel3'].forEach(r => document.getElementById(r).textContent = activeSlotGame.icon);
             document.getElementById('lobby').style.display = 'none'; document.getElementById('slot-interface').style.display = 'flex';
-            window.activeSlotGame = activeGame;
         }
-        function adjustSlotBet(val) { currentSlotBet = Math.max(10, Math.min(Math.floor(balance), currentSlotBet + val)); document.getElementById('slotBet').textContent = currentSlotBet; }
-        function setSlotMaxBet() { currentSlotBet = Math.max(10, Math.floor(balance)); document.getElementById('slotBet').textContent = currentSlotBet; }
+        function adjustSlotBet(v) { currentSlotBet = Math.max(10, Math.min(balance, currentSlotBet + v)); document.getElementById('slotBet').textContent = currentSlotBet; }
+        function setSlotMaxBet() { currentSlotBet = Math.max(10, balance); document.getElementById('slotBet').textContent = currentSlotBet; }
         function spinSlot() {
-            if(balance < currentSlotBet) { document.getElementById('slotMsg').textContent = "Chybí kredit!"; return; }
-            balance -= currentSlotBet; updateUI(); document.getElementById('spinBtn').disabled = true; document.getElementById('slotMsg').textContent = "Točí se...";
+            if(balance < currentSlotBet) return;
+            balance -= currentSlotBet; updateUI();
+            document.getElementById('spinBtn').disabled = true; document.getElementById('slotMsg').textContent = "...";
             ['reel1','reel2','reel3'].forEach(id => { document.getElementById(id).classList.add('spinning'); document.getElementById(id).textContent = ""; });
-            const isWin = (Math.random() * 100) < window.activeSlotGame.winChance;
-            let final = isWin ? Array(3).fill(window.activeSlotGame.symbols[Math.floor(Math.random() * window.activeSlotGame.symbols.length)]) : [0,1,2].map(() => window.activeSlotGame.symbols[Math.floor(Math.random() * window.activeSlotGame.symbols.length)]);
-            setTimeout(() => stopSlotReel(1, final[0]), 500); setTimeout(() => stopSlotReel(2, final[1]), 1000); setTimeout(() => stopSlotReel(3, final[2], isWin), 1500);
+            const win = Math.random()*100 < activeSlotGame.winChance;
+            const sym = activeSlotGame.symbols;
+            const res = win ? Array(3).fill(sym[Math.floor(Math.random()*sym.length)]) : [sym[0], sym[1], sym[2]].sort(()=>Math.random()-0.5);
+            setTimeout(() => stopSlot(1, res[0]), 500); setTimeout(() => stopSlot(2, res[1]), 1000); setTimeout(() => stopSlot(3, res[2], win), 1500);
         }
-        function stopSlotReel(n, s, check) {
+        function stopSlot(n, s, win) {
             const r = document.getElementById(`reel${n}`); r.classList.remove('spinning'); r.textContent = s;
-            if(check !== undefined) {
+            if(win !== undefined) {
                 document.getElementById('spinBtn').disabled = false;
-                if(check) {
-                    const win = currentSlotBet * (5 + window.activeSlotGame.symbols.indexOf(s) * 5);
-                    balance += win; updateUI(); document.getElementById('slotWin').textContent = win; document.getElementById('slotMsg').textContent = `VÝHRA! ${win} CZK`; document.getElementById('slotMsg').style.color = "#00ff88";
-                } else { document.getElementById('slotWin').textContent = "0"; document.getElementById('slotMsg').textContent = "Nic."; document.getElementById('slotMsg').style.color = "#fff"; }
+                if(win) {
+                    const amt = currentSlotBet * (5 + activeSlotGame.symbols.indexOf(s)*2);
+                    balance += amt; updateUI(); document.getElementById('slotWin').textContent = amt; document.getElementById('slotMsg').textContent = `VÝHRA ${amt}!`; document.getElementById('slotMsg').style.color = "#00ff88";
+                } else {
+                    document.getElementById('slotWin').textContent = "0"; document.getElementById('slotMsg').textContent = "Nic."; document.getElementById('slotMsg').style.color = "#fff";
+                }
             }
         }
 
-        // =======================
-        //  RULETA
-        // =======================
-        function openRouletteGame() { document.getElementById('lobby').style.display = 'none'; document.getElementById('roulette-interface').style.display = 'flex'; }
-        function adjustRouletteBet(val) { rouletteBet = Math.max(10, Math.min(Math.floor(balance), rouletteBet + val)); document.getElementById('rBetAmount').textContent = rouletteBet; }
-        function selectRouletteBet(s, el) { rouletteSelection = s; document.querySelectorAll('.r-num').forEach(e => e.classList.remove('r-selected')); el.classList.add('r-selected'); document.getElementById('rSelectedInfo').textContent = (s==='red'?'ČERVENÁ':s==='black'?'ČERNÁ':s); }
+        // --- ROULETTE ---
+        function openRouletteGame() { document.getElementById('lobby').style.display='none'; document.getElementById('roulette-interface').style.display='flex'; }
+        function adjustRouletteBet(v) { rouletteBet = Math.max(10, Math.min(balance, rouletteBet + v)); document.getElementById('rBetAmount').textContent = rouletteBet; }
+        function selRoulette(s, el) { rouletteSelection=s; document.querySelectorAll('.r-num').forEach(e=>e.classList.remove('r-selected')); el.classList.add('r-selected'); document.getElementById('rSelectedInfo').textContent = s; }
         function spinRoulette() {
-            if(rouletteSelection === null || balance < rouletteBet) return;
-            balance -= rouletteBet; updateUI(); document.getElementById('rMsg').textContent = "Točí se...";
-            let rolls=0; const int = setInterval(() => {
-                document.querySelectorAll('.r-num').forEach(e => e.classList.remove('r-highlight'));
-                const rand = rBoard.children[Math.floor(Math.random()*37)]; if(rand) rand.classList.add('r-highlight');
-                if(++rolls > 20) { clearInterval(int); finalizeRoulette(); }
-            }, 100);
-        }
-        function finalizeRoulette() {
-            let res = Math.floor(Math.random() * 37);
-            if(ROULETTE_CONFIG.rigged && Math.random()*100 < ROULETTE_CONFIG.riggedWinChance) res = (typeof rouletteSelection === 'number') ? rouletteSelection : (rouletteSelection==='red'?redNumbers[0]:2);
-            document.querySelectorAll('.r-num').forEach(e => e.classList.remove('r-highlight')); rBoard.children[res].classList.add('r-highlight');
-            let win = 0;
-            if(rouletteSelection === res) win = rouletteBet * 36;
-            else if(rouletteSelection === 'red' && redNumbers.includes(res)) win = rouletteBet * 2;
-            else if(rouletteSelection === 'black' && !redNumbers.includes(res) && res !== 0) win = rouletteBet * 2;
-            if(win > 0) { balance += win; updateUI(); document.getElementById('rMsg').textContent = `Padla ${res}. VÝHRA ${win} CZK!`; document.getElementById('rMsg').style.color = "#00ff88"; } else { document.getElementById('rMsg').textContent = `Padla ${res}. Prohra.`; document.getElementById('rMsg').style.color = "#ff4444"; }
-        }
-
-        // =======================
-        //  BLACKJACK
-        // =======================
-        const SUITS = ['♥', '♦', '♣', '♠'], VALUES = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-        function openBlackjackGame() { document.getElementById('lobby').style.display = 'none'; document.getElementById('blackjack-interface').style.display = 'flex'; resetBjTable(); }
-        function adjustBjBet(val) { if(bjGameActive) return; bjBet = Math.max(10, Math.min(Math.floor(balance), bjBet + val)); document.getElementById('bjBetAmount').textContent = bjBet; }
-        function createDeck() { let deck=[]; for(let s of SUITS) for(let v of VALUES) deck.push({value:v, suit:s}); return deck.sort(()=>Math.random()-0.5); }
-        function getCardValue(c) { if(['J','Q','K'].includes(c.value)) return 10; if(c.value==='A') return 11; return parseInt(c.value); }
-        function calculateHand(h) { let sum=0, aces=0; h.forEach(c=>{sum+=getCardValue(c); if(c.value==='A') aces++}); while(sum>21 && aces>0) {sum-=10; aces--} return sum; }
-        function renderCard(c, id, hidden=false) { const el = document.createElement('div'); el.className = `playing-card ${['♥','♦'].includes(c.suit)?'red':''} ${hidden?'hidden':''}`; el.innerHTML = hidden?'':`<span>${c.value}</span><span style="font-size:30px">${c.suit}</span><span>${c.value}</span>`; document.getElementById(id).appendChild(el); }
-        function resetBjTable() { document.getElementById('dealerCards').innerHTML = ''; document.getElementById('playerCards').innerHTML = ''; document.getElementById('dealerScore').textContent = '0'; document.getElementById('playerScore').textContent = '0'; document.getElementById('bjResult').textContent = ''; document.getElementById('bjActions').style.display = 'none'; document.getElementById('bjDealDiv').style.display = 'block'; bjGameActive = false; }
-        function bjDeal() {
-            if(balance < bjBet) { alert("Nemáš kredit!"); return; }
-            balance -= bjBet; updateUI(); bjDeck = createDeck(); bjPlayerHand = [bjDeck.pop(), bjDeck.pop()]; bjDealerHand = [bjDeck.pop(), bjDeck.pop()]; resetBjTable(); document.getElementById('bjDealDiv').style.display = 'none'; document.getElementById('bjActions').style.display = 'flex'; bjGameActive = true;
-            bjPlayerHand.forEach(c => renderCard(c, 'playerCards')); document.getElementById('playerScore').textContent = calculateHand(bjPlayerHand);
-            renderCard(bjDealerHand[0], 'dealerCards'); renderCard(bjDealerHand[1], 'dealerCards', true); document.getElementById('dealerScore').textContent = "?";
-            if(calculateHand(bjPlayerHand) === 21) bjStand();
-        }
-        function bjHit() { const c = bjDeck.pop(); bjPlayerHand.push(c); renderCard(c, 'playerCards'); const s = calculateHand(bjPlayerHand); document.getElementById('playerScore').textContent = s; if(s > 21) endBjRound("BUST! Prohrál jsi."); }
-        function bjStand() {
-            document.getElementById('dealerCards').innerHTML = ''; bjDealerHand.forEach(c => renderCard(c, 'dealerCards')); let dScore = calculateHand(bjDealerHand); document.getElementById('dealerScore').textContent = dScore;
-            const dealerLoop = setInterval(() => {
-                if(dScore < 17) { const c = bjDeck.pop(); bjDealerHand.push(c); renderCard(c, 'dealerCards'); dScore = calculateHand(bjDealerHand); document.getElementById('dealerScore').textContent = dScore; }
-                else { clearInterval(dealerLoop); determineBjWinner(dScore); }
-            }, 800);
-        }
-        function determineBjWinner(dScore) {
-            const pScore = calculateHand(bjPlayerHand); const msg = document.getElementById('bjResult');
-            if(dScore > 21 || pScore > dScore) { balance += bjBet * 2; msg.textContent = "VÝHRA!"; msg.style.color = "#00ff88"; }
-            else if(pScore === dScore) { if(BLACKJACK_CONFIG.dealerCheats) { msg.textContent = "Remíza (Dealer bere)."; msg.style.color = "#ff4444"; } else { balance += bjBet; msg.textContent = "PUSH (Remíza)."; msg.style.color = "#ffd700"; } }
-            else { msg.textContent = "PROHRA."; msg.style.color = "#ff4444"; }
-            updateUI(); bjGameActive = false; document.getElementById('bjActions').style.display = 'none'; document.getElementById('bjDealDiv').style.display = 'block';
-        }
-        function endBjRound(text) { const m = document.getElementById('bjResult'); m.textContent = text; m.style.color = "#ff4444"; bjGameActive = false; document.getElementById('bjActions').style.display = 'none'; document.getElementById('bjDealDiv').style.display = 'block'; document.getElementById('dealerCards').innerHTML = ''; bjDealerHand.forEach(c => renderCard(c, 'dealerCards')); document.getElementById('dealerScore').textContent = calculateHand(bjDealerHand); }
-
-        // =======================
-        //  DOSTIHY (NOVÉ)
-        // =======================
-        function openHorseRace() {
-            document.getElementById('lobby').style.display = 'none';
-            document.getElementById('race-interface').style.display = 'flex';
-            
-            // Render Track
-            const track = document.getElementById('raceTrack');
-            track.innerHTML = '<div class="finish-line"></div>';
-            HORSES.forEach((h, index) => {
-                track.innerHTML += `
-                    <div class="horse-lane">
-                        <div class="horse-model" id="horse_${index}" style="color:${h.color}">
-                            ${h.icon} <span class="horse-tag">${h.name}</span>
-                        </div>
-                    </div>`;
-            });
-            
-            // Render Selectors
-            const sel = document.getElementById('horseSelector');
-            sel.innerHTML = '';
-            HORSES.forEach((h, index) => {
-                const btn = document.createElement('div');
-                btn.className = 'horse-btn';
-                btn.onclick = () => selectHorse(index, btn);
-                btn.innerHTML = `<span style="font-size:20px">${h.icon}</span><span>${h.name}</span>`;
-                sel.appendChild(btn);
-            });
-            
-            selectedHorse = null;
-            document.getElementById('raceStatus').textContent = "Vyber koně a vsaď!";
-            resetRacePositions();
-        }
-
-        function adjustRaceBet(val) {
-            if(raceActive) return;
-            raceBet = Math.max(10, Math.min(Math.floor(balance), raceBet + val));
-            document.getElementById('raceBetAmount').textContent = raceBet;
-        }
-
-        function selectHorse(index, btn) {
-            if(raceActive) return;
-            selectedHorse = index;
-            document.querySelectorAll('.horse-btn').forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
-            document.getElementById('raceStatus').textContent = `Vybrán kůň: ${HORSES[index].name}`;
-        }
-
-        function resetRacePositions() {
-            horsePositions = [0,0,0,0,0];
-            HORSES.forEach((h, i) => {
-                document.getElementById(`horse_${i}`).style.left = '0%';
-            });
-        }
-
-        function startRace() {
-            if(selectedHorse === null) { document.getElementById('raceStatus').textContent = "Nejdřív vyber koně!"; return; }
-            if(balance < raceBet) { document.getElementById('raceStatus').textContent = "Nemáš peníze!"; return; }
-            
-            balance -= raceBet; updateUI();
-            raceActive = true;
-            document.getElementById('startRaceBtn').disabled = true;
-            document.getElementById('raceStatus').textContent = "START!";
-            resetRacePositions();
-
-            const raceInterval = setInterval(() => {
-                let winner = -1;
+            if(!rouletteSelection || balance<rouletteBet) return;
+            balance -= rouletteBet; updateUI(); document.getElementById('rMsg').textContent = "...";
+            setTimeout(() => {
+                const res = Math.floor(Math.random()*37);
+                let w = 0;
+                if(rouletteSelection===res) w=rouletteBet*36;
+                else if(rouletteSelection==='red' && redNumbers.includes(res)) w=rouletteBet*2;
+                else if(rouletteSelection==='black' && !redNumbers.includes(res) && res!==0) w=rouletteBet*2;
                 
-                // Pohyb koní
+                document.querySelectorAll('.r-num').forEach(e=>e.classList.remove('r-highlight'));
+                // Simple highlight logic for mobile (by index is tricky with custom grid, simplistic approach)
+                document.getElementById('rMsg').textContent = `Padla ${res}. ${w>0?'Výhra '+w:'Prohra.'}`;
+                if(w>0) { balance += w; updateUI(); }
+            }, 1000);
+        }
+
+        // --- BLACKJACK ---
+        const SUITS=['♥','♦','♣','♠'], VALS=['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
+        function openBlackjackGame() { document.getElementById('lobby').style.display='none'; document.getElementById('blackjack-interface').style.display='flex'; resetBj(); }
+        function adjustBjBet(v) { if(!bjGameActive) { bjBet = Math.max(10, Math.min(balance, bjBet + v)); document.getElementById('bjBetAmount').textContent = bjBet; } }
+        function resetBj() { document.getElementById('dealerCards').innerHTML=''; document.getElementById('playerCards').innerHTML=''; document.getElementById('dealerScore').textContent='0'; document.getElementById('playerScore').textContent='0'; document.getElementById('bjResult').textContent=''; document.getElementById('bjActions').style.display='none'; document.getElementById('bjDealDiv').style.display='block'; bjGameActive=false; }
+        function mkDeck() { let d=[]; for(let s of SUITS) for(let v of VALS) d.push({v,s}); return d.sort(()=>Math.random()-0.5); }
+        function cardVal(c) { if(['J','Q','K'].includes(c.v)) return 10; if(c.v==='A') return 11; return parseInt(c.v); }
+        function handVal(h) { let s=0,a=0; h.forEach(c=>{s+=cardVal(c); if(c.v==='A') a++}); while(s>21 && a>0){s-=10; a--} return s; }
+        function drawCard(c, to, hid) { const el=document.createElement('div'); el.className=`playing-card ${['♥','♦'].includes(c.s)?'red':''} ${hid?'hidden':''}`; el.innerHTML=hid?'':`<span>${c.v}</span><span style="font-size:20px">${c.s}</span>`; document.getElementById(to).appendChild(el); }
+        function bjDeal() {
+            if(balance<bjBet) return;
+            balance-=bjBet; updateUI(); bjDeck=mkDeck(); bjGameActive=true;
+            bjPlayerHand=[bjDeck.pop(), bjDeck.pop()]; bjDealerHand=[bjDeck.pop(), bjDeck.pop()];
+            resetBj(); document.getElementById('bjDealDiv').style.display='none'; document.getElementById('bjActions').style.display='flex';
+            bjPlayerHand.forEach(c=>drawCard(c,'playerCards')); document.getElementById('playerScore').textContent=handVal(bjPlayerHand);
+            drawCard(bjDealerHand[0],'dealerCards'); drawCard(bjDealerHand[1],'dealerCards',true); document.getElementById('dealerScore').textContent='?';
+        }
+        function bjHit() { 
+            const c=bjDeck.pop(); bjPlayerHand.push(c); drawCard(c,'playerCards'); 
+            const s=handVal(bjPlayerHand); document.getElementById('playerScore').textContent=s;
+            if(s>21) endBj("BUST!"); 
+        }
+        function bjStand() {
+            document.getElementById('dealerCards').innerHTML=''; bjDealerHand.forEach(c=>drawCard(c,'dealerCards'));
+            let ds=handVal(bjDealerHand); document.getElementById('dealerScore').textContent=ds;
+            const int=setInterval(()=>{
+                if(ds<17) { const c=bjDeck.pop(); bjDealerHand.push(c); drawCard(c,'dealerCards'); ds=handVal(bjDealerHand); document.getElementById('dealerScore').textContent=ds; }
+                else { clearInterval(int); checkBjWin(ds); }
+            }, 600);
+        }
+        function checkBjWin(ds) {
+            const ps=handVal(bjPlayerHand);
+            if(ds>21 || ps>ds) { balance+=bjBet*2; endBj("VÝHRA!"); }
+            else if(ps===ds) { balance+=bjBet; endBj("PUSH"); }
+            else endBj("PROHRA");
+        }
+        function endBj(msg) { document.getElementById('bjResult').textContent=msg; updateUI(); bjGameActive=false; document.getElementById('bjActions').style.display='none'; document.getElementById('bjDealDiv').style.display='block'; }
+
+        // --- HORSES ---
+        function openHorseRace() {
+            document.getElementById('lobby').style.display='none'; document.getElementById('race-interface').style.display='flex';
+            const track = document.getElementById('raceTrack'); track.innerHTML='<div class="finish-line"></div>';
+            HORSES.forEach((h,i) => track.innerHTML += `<div class="horse-lane"><div class="horse-model" id="horse_${i}" style="color:${h.color}">${h.icon} <span class="horse-tag">${h.name}</span></div></div>`);
+            const sel = document.getElementById('horseSelector'); sel.innerHTML='';
+            HORSES.forEach((h,i) => {
+                const b = document.createElement('div'); b.className='horse-btn'; b.innerHTML=`<span>${h.icon}</span><span>${h.name}</span>`;
+                b.onclick=()=>{if(!raceActive){selectedHorse=i; document.querySelectorAll('.horse-btn').forEach(x=>x.classList.remove('selected')); b.classList.add('selected');}};
+                sel.appendChild(b);
+            });
+            selectedHorse=null;
+        }
+        function adjustRaceBet(v) { if(!raceActive) { raceBet=Math.max(10,Math.min(balance,raceBet+v)); document.getElementById('raceBetAmount').textContent=raceBet; } }
+        function startRace() {
+            if(selectedHorse===null || balance<raceBet) return;
+            balance-=raceBet; updateUI(); raceActive=true; document.getElementById('startRaceBtn').disabled=true;
+            horsePositions=[0,0,0,0,0]; HORSES.forEach((_,i)=>document.getElementById(`horse_${i}`).style.left='0%');
+            const int = setInterval(()=>{
+                let win = -1;
                 for(let i=0; i<5; i++) {
-                    // Náhodná rychlost každého kroku
-                    const speed = Math.random() * 2.5; 
-                    horsePositions[i] += speed;
-                    
-                    const el = document.getElementById(`horse_${i}`);
-                    el.style.left = Math.min(90, horsePositions[i]) + '%'; // 90% je cíl
-                    
-                    if(horsePositions[i] >= 90) {
-                        winner = i;
-                        break;
-                    }
+                    horsePositions[i] += Math.random()*2;
+                    document.getElementById(`horse_${i}`).style.left = Math.min(90, horsePositions[i])+'%';
+                    if(horsePositions[i]>=90) { win=i; break; }
                 }
-
-                if(winner !== -1) {
-                    clearInterval(raceInterval);
-                    finalizeRace(winner);
+                if(win!==-1) {
+                    clearInterval(int); raceActive=false; document.getElementById('startRaceBtn').disabled=false;
+                    if(win===selectedHorse) { balance+=raceBet*5; updateUI(); alert(`Vítěz: ${HORSES[win].name}. Výhra!`); }
+                    else alert(`Vítěz: ${HORSES[win].name}. Prohra.`);
                 }
-            }, 50); // Rychlost animace
+            }, 50);
         }
 
-        function finalizeRace(winnerIndex) {
-            raceActive = false;
-            document.getElementById('startRaceBtn').disabled = false;
-            
-            const winnerName = HORSES[winnerIndex].name;
-            
-            if(selectedHorse === winnerIndex) {
-                const win = raceBet * 5; // 5 koní = 5x výhra
-                balance += win; updateUI();
-                document.getElementById('raceStatus').innerHTML = `Vítěz: ${winnerName} <br> <span style="color:#00ff88">VYHRÁL JSI ${win} CZK!</span>`;
-            } else {
-                document.getElementById('raceStatus').innerHTML = `Vítěz: ${winnerName} <br> <span style="color:#ff4444">Prohra.</span>`;
-            }
-        }
-
-        // =======================
-        //  KRYPTO & INIT
-        // =======================
-        function tradeCrypto(action) {
-            if (action === 'buy') { if (balance >= cryptoPrice) { balance -= cryptoPrice; cryptoOwned += 1; } else alert("Nemáš dost peněz!"); } 
-            else { if (cryptoOwned >= 1) { balance += cryptoPrice; cryptoOwned -= 1; } else alert("Nemáš Jancoin!"); }
+        // --- CRYPTO ---
+        function tradeCrypto(act) {
+            if(act==='buy' && balance>=cryptoPrice) { balance-=cryptoPrice; cryptoOwned++; }
+            if(act==='sell' && cryptoOwned>=1) { balance+=cryptoPrice; cryptoOwned--; }
             updateUI();
         }
-        setInterval(() => {
-            let change = (Math.random() - 0.5) * CRYPTO_CONFIG.volatility + CRYPTO_CONFIG.trend;
-            cryptoPrice = Math.max(1, cryptoPrice + change);
-            cryptoHistory.push(cryptoPrice); if(cryptoHistory.length > 50) cryptoHistory.shift();
-            ctx.clearRect(0, 0, 600, 200); ctx.strokeStyle = '#00ff88'; ctx.lineWidth = 2; ctx.beginPath();
-            const max = Math.max(...cryptoHistory), min = Math.min(...cryptoHistory), range = max - min || 1;
-            for(let i=0; i<cryptoHistory.length; i++) {
-                const x = (i / (cryptoHistory.length - 1)) * 600;
-                const y = 200 - ((cryptoHistory[i] - min) / range) * 180 - 10;
-                if(i===0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-            }
+        setInterval(()=>{
+            cryptoPrice = Math.max(1, cryptoPrice + (Math.random()-0.5)*5);
+            cryptoHistory.push(cryptoPrice); if(cryptoHistory.length>40) cryptoHistory.shift();
+            // Simple chart draw (responsive-ish)
+            const w=ctx.canvas.width=document.querySelector('.crypto-chart').clientWidth;
+            const h=ctx.canvas.height=200;
+            ctx.strokeStyle='#00ff88'; ctx.lineWidth=2; ctx.beginPath();
+            const min=Math.min(...cryptoHistory), max=Math.max(...cryptoHistory), rng=max-min||1;
+            cryptoHistory.forEach((p,i)=>{
+                const x=(i/(cryptoHistory.length-1))*w, y=h-((p-min)/rng)*(h-20)-10;
+                i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+            });
             ctx.stroke(); updateUI();
         }, 1000);
 
